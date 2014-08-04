@@ -1,0 +1,100 @@
+#!/bin/bash
+#==================================================================================
+# Unit tests for bash_spec
+#
+# Author: Dave Nicolette
+# Date: 29 Jul 2014
+#==================================================================================
+. bash_spec
+
+function equality_of_scalar_value {
+    it "reports two scalar values are equal"
+    one="1"
+	expect $one to_be 1    
+}
+
+function nonequality_of_scalar_value {
+	it "reports two scalar values are unequal"
+	one="1"
+    expect $one not to_be 2
+}
+
+function string_matches_regex_pattern {
+	it "reports regex match"
+	str="one fine day"
+	expect "$str" to_match day$
+}
+
+function string_does_not_match_regex_pattern {
+	it "reports regex mismatch"
+	str="one fine night"
+	expect "$str" not to_match day$
+}
+
+function array_contains_value {
+	it "reports an array contains a given value"
+	declare -a arr=(1 2 3 4)
+	expect "${arr[@]}" to_contain 3
+}
+
+function array_does_not_contain_value {
+	it "reports an array does not contain a given value"
+	declare -a arr=(1 2 3 4)
+	expect "${arr[@]}" not to_contain 5
+}
+
+function file_exists {
+	it "reports a file exists"
+	echo 'test' > tempfile
+	expect tempfile to_exist
+	rm -f tempfile
+}
+
+function file_does_not_exist {
+	it "reports a file does not exist"
+	rm -f tempfile
+	expect tempfile not to_exist
+}
+
+function file_has_given_mode {
+	it "reports a file has the given mode"
+	touch tempfile
+	chmod u=rw,g=r,o=x tempfile
+	expect tempfile to_have_mode -rw-r----x
+	rm -f tempfile
+}
+
+function file_does_not_have_given_mode {
+	it "reports a file does not have the given mode"
+	touch tempfile
+	chmod u=rw,g=r,o=x tempfile
+	expect tempfile not to_have_mode -rw-rw-rwx
+	rm -f tempfile
+}
+
+function package_is_installed {
+	it "reports a given package is installed"
+	expect bash to_be_installed
+}
+
+function package_is_not_installed {
+	it "reports a given package is not installed"
+	expect bashx not to_be_installed
+}
+
+print_header bash_spec
+equality_of_scalar_value
+nonequality_of_scalar_value
+string_matches_regex_pattern
+string_does_not_match_regex_pattern
+array_contains_value
+array_does_not_contain_value
+file_exists
+file_does_not_exist
+file_has_given_mode
+file_does_not_have_given_mode
+package_is_installed
+package_is_not_installed
+print_trailer
+
+exit 0
