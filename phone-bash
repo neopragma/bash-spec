@@ -1,0 +1,33 @@
+#!/bin/bash
+#===================================================================================
+# Bash shell phone number parser
+#===================================================================================
+
+function validate_phone_number {
+    phone_number=$(echo $phone_number | tr -d '[ \-)(]')
+	if echo $phone_number | egrep -q '^[0-9]{10}$'
+	then
+	    phone_number_valid=true
+    else
+        phone_number_valid=false
+    fi    
+}
+
+function extract_area_code {
+	area_code=`echo $phone_number | cut -b 1-3`
+}
+
+function extract_prefix {
+	phone_prefix=`echo $phone_number | cut -b 4-6`
+}
+
+function extract_number {
+	phone_number_last4=`echo $phone_number | cut -b 7-10`
+}
+
+function format_phone_number {
+    extract_area_code
+    extract_prefix
+    extract_number
+	formatted_phone_number="($area_code) $phone_prefix-$phone_number_last4"
+}

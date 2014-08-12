@@ -1,0 +1,52 @@
+#!/bin/bash
+#==================================================================================
+# Unit tests for phone number parser in bash
+#
+#==================================================================================
+. ./bash_spec
+. ./phone-bash
+
+function test_valid_phone_number {
+	it "recognizes a valid phone number"
+	phone_number='1234567890'
+	validate_phone_number
+	expect $phone_number_valid to_be true
+}
+
+function test_invalid_phone_number {
+	it "recognizes an invalid phone number"
+	phone_number='123x567890'
+	validate_phone_number
+	expect $phone_number_valid to_be false
+}
+
+function test_strip_special_characters {
+	it "strips special characters from a formatted phone number"
+	phone_number='(123) 456-7890'
+	validate_phone_number
+	expect $phone_number_valid to_be true
+}
+
+function test_extract_area_code {
+    it "returns the area code from a phone number"
+    phone_number='1234567890'
+    extract_area_code
+	expect $area_code to_be '123'    
+}
+
+function test_format_phone_number {
+	it "formats the phone number as (xxx) yyy-zzzz"
+	phone_number='1234567890'
+	format_phone_number
+	expect "$formatted_phone_number" to_be '(123) 456-7890'
+}
+
+print_header phone_bash
+test_valid_phone_number
+test_invalid_phone_number
+test_strip_special_characters
+test_extract_area_code
+test_format_phone_number
+print_trailer
+
+exit 0

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [[ "$1" == all ]]
+then
+    for script in $(find ./*-test  -printf "%f\n")
+    do
+        "$script" 2>/dev/null
+    done
+else    
+    "./$1" 2>/dev/null
+fi

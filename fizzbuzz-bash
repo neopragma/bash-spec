@@ -1,0 +1,21 @@
+#!/bin/bash
+#===================================================================================
+# Bash shell fizzbuzz implementation
+#===================================================================================
+
+function fizz_it {
+    fizz_result=''
+	if [ $(( $1 % 3 )) -eq 0 ]
+	then
+	    fizz_result='Fizz'
+	fi   
+	if [ $(( $1 % 5 )) -eq 0 ]
+	then
+	    fizz_result="${fizz_result}Buzz"
+	fi   
+	if [ $(( $1 % 7 )) -eq 0 ]
+	then
+	    fizz_result="${fizz_result}Baz"
+	fi 
+	[ "$fizz_result" ] || fizz_result="$1" 
+}
