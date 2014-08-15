@@ -7,20 +7,17 @@
 
 print_header 'Verify configuration'
 
-for package in xinit vim ssh
+for package in grub2 python perl
 do
     it "verifies $package is installed"
     expect $package to_be_installed
 done
 
-for file in '/usr/bin/xinit' '/usr/bin/ssh'
+for file in '/usr/bin/xinit' '/usr/bin/ssh' '/usr/bin/perl'
 do
     it "verifies permissions on $file"
     expect $file to_have_mode '-rwxr-xr-x'
 done
-
-it "verifies permissions on /usr/bin/vi"
-expect '/usr/bin/vi' to_have_mode 'lrwxrwxrwx'
 
 it "verifies package vlortch is not installed"
 expect vlortch not to_be_installed

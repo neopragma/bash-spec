@@ -161,7 +161,11 @@ function to_have_mode {
 }
 
 function to_be_installed {
-    _actual_="$(dpkg-query -l ${_expected_[0]} 2>/dev/null | grep ${_expected_[0]})"
+    if [[ -e /usr/bin/dpkg ]]; then
+      _actual_="$(dpkg-query -l ${_expected_[0]} 2>/dev/null | grep ${_expected_[0]})"
+    else
+      _actual_="$(yum list ${_expected_[0]} 2>/dev/null | grep 'Installed Packages')"
+    fi
     if [[ "$_actual_" != "" ]]; then
         _pass_=true
     else
