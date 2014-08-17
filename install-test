@@ -20,7 +20,7 @@ do
 done
 
 it "verifies permissions on regular file ~/.profile"
-expect ~/.profile to_have_mode -rw-r--r--
+expect ~/.profile to_have_mode -rw.*
 
 it "verifies package vlortch is not installed"
 expect vlortch not to_be_installed
