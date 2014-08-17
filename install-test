@@ -13,10 +13,10 @@ do
     expect $package to_be_installed
 done
 
-for file in grub2 python perl
+for file in python perl
 do
     it "verifies permissions on $file"
-    expect $file to_have_mode rwxr-xr-x$
+    expect $file to_have_mode rwxr.xr.x$
 done
 
 it "verifies package vlortch is not installed"
