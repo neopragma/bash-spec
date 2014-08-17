@@ -15,9 +15,12 @@ done
 
 for file in python perl
 do
-    it "verifies permissions on $file"
+    it "verifies permissions on executable file $file"
     expect $file to_have_mode rwxr.xr.x$
 done
+
+it "verifies permissions on regular file ~/.profile"
+expect ~/.profile to_have_mode -rw-r--r--
 
 it "verifies package vlortch is not installed"
 expect vlortch not to_be_installed
