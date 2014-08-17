@@ -28,7 +28,7 @@ function show_help {
     echo 'expect variable [not] to_match regex            Regex match'
     echo 'expect array [not] to_contain value             Look for a value in an array'
     echo 'expect filename [not] to_exist                  Verify file existence'
-    echo 'expect filename [not] to_have_mode modestring   Verify file mode (permissions)'
+    echo 'expect filename [not] to_have_mode modestring   Verify file mode (can pass regex)'
     echo
 }
 
@@ -150,9 +150,15 @@ function to_exist {
 
 function to_have_mode {
     _filename_="${_expected_[0]}"
+    _fullname_="$(which $_filename_)"
     _expected_="$1"
-    _actual_="$(stat -c %A $_filename_)"
-    if [[ "$_actual_" == "$_expected_" ]]; then
+    _os_=$(uname -a | cut -f 1 -d ' ')
+    if [[ $_os_ == Linux ]]; then
+      _actual_="$(stat -c %A $_fullname_)"
+    else
+      _actual_="$(stat $_fullname_ | cut -f 3 -d ' ')"
+    fi
+    if [[ "$_actual_" =~ $_expected_ ]]; then
         _pass_=true
     else
         _pass_=false
@@ -164,7 +170,13 @@ function to_be_installed {
     if [[ -e /usr/bin/dpkg ]]; then
       _actual_="$(dpkg-query -l ${_expected_[0]} 2>/dev/null | grep ${_expected_[0]})"
     else
+      if [[ -e /usr/local/bin/yum ]]; then
       _actual_="$(yum list ${_expected_[0]} 2>/dev/null | grep 'Installed Packages')"
+      else
+        if [[ -e /usr/local/share/pcbsd/bin/pkg ]]; then
+          _actual_="$(pkg search ${_expected_[0]} 2>/dev/null)"
+        fi
+      fi
     fi
     if [[ "$_actual_" != "" ]]; then
         _pass_=true
