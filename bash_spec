@@ -93,7 +93,7 @@ function it {
 }
 
 function expect {
-	_actual_=
+	_actual_="$1"
     _negation_=false
     declare -a _expected_
     until [[ "$1" == to_* || "$1" == not || -z "$1" ]]; do
@@ -109,7 +109,7 @@ function not {
 }
 
 function to_be {
-    _actual_="$1"
+    _expected_="$1"
     if [[ "${_expected_[0]}" == "$_actual_" ]]; then 
         _pass_=true
     else

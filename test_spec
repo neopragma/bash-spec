@@ -5,6 +5,18 @@
 #==================================================================================
 . bash_spec
 
+function displays_actual_and_expected_values {
+	it "displays correct actual and expected values"
+	fred="hello"
+    expect $fred to_be "junk" > tempout 
+    `grep --quiet 'expected: junk | actual: hello' tempout` && {
+        (( _failed_-=1 ))
+        pass
+    } || {
+        fail
+    }
+}
+
 function equality_of_scalar_value {
     it "reports two scalar values are equal"
     one="1"
@@ -81,6 +93,7 @@ function package_is_not_installed {
 }
 
 print_header bash_spec
+displays_actual_and_expected_values
 equality_of_scalar_value
 nonequality_of_scalar_value
 string_matches_regex_pattern
