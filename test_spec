@@ -2,6 +2,12 @@
 #==================================================================================
 # Unit tests for bash_spec
 #
+# Version 1.1.0 13 May 2018
+# Added check for unset variable
+# Version 1.0.0 29 Jul 2014
+# Release
+# Author: Dave Nicolette
+# License: MIT
 #==================================================================================
 . bash_spec
 
@@ -27,6 +33,18 @@ function nonequality_of_scalar_value {
 	it "reports two scalar values are unequal"
 	one="1"
     expect $one not to_be 2
+}
+
+function matches_empty_or_unset_variable {
+    it "matches an empty or unset variable" 
+    my_var=
+    expect my_var to_be_empty
+}
+
+function matches_variable_that_has_any_value { 
+    it "matches a variable that is set (any value)"
+    my_var="something"
+    expect my_var not to_be_empty
 }
 
 function string_matches_regex_pattern {
@@ -96,6 +114,8 @@ print_header bash_spec
 displays_actual_and_expected_values
 equality_of_scalar_value
 nonequality_of_scalar_value
+matches_empty_or_unset_variable
+matches_variable_that_has_any_value
 string_matches_regex_pattern
 string_does_not_match_regex_pattern
 array_contains_value

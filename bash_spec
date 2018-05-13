@@ -11,9 +11,13 @@
 # expect filename [not] to_exist                  Verify file existence
 # expect filename [not] to_have_mode modestring   Verify file mode (permissions)
 #
+# Version 1.1.0 13 May 2018
+# Added check for unset variable
+# Version 1.0.0 29 Jul 2014
+# Release
 # Author: Dave Nicolette
-# Date: 29 Jul 2014
-#==================================================================================
+# License: MIT
+# ==================================================================================
 _count_=0
 _passed_=0
 _failed_=0
@@ -111,6 +115,16 @@ function not {
 function to_be {
     _expected_="$1"
     if [[ "${_expected_[0]}" == "$_actual_" ]]; then 
+        _pass_=true
+    else
+        _pass_=false
+    fi
+    _negation_check_
+}
+
+function to_be_empty {
+    _expected_='(empty)'
+    if [[ -z "${!_actual_}" ]]; then 
         _pass_=true
     else
         _pass_=false
