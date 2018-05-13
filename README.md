@@ -13,6 +13,14 @@
 * phone-test - sample test script for phone-korn.
 * install-test - simple validation that packages are installed and have the expected permissions.
 
+## Install
+
+```shell
+curl -O https://raw.githubusercontent.com/neopragma/bash-spec/master/bash_spec
+```
+
+Note the project name has a dash while the script itself has an underscore (for your amusement and convenience).
+
 ## Convenience
 
 Add pwd to PATH:
