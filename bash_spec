@@ -77,9 +77,9 @@ function _negation_check_ {
     if [[ "$_pass_" == true ]]; then
         (( _passed_+=1 ))
         pass
-    else
-        (( _failed_+=1 ))
-        fail
+   else
+       (( _failed_+=1 ))
+      fail
     fi
 }
 

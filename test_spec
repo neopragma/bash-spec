@@ -17,8 +17,10 @@ function displays_actual_and_expected_values {
     expect $fred to_be "junk" > tempout 
     `grep --quiet 'expected: junk | actual: hello' tempout` && {
         (( _failed_-=1 ))
-        pass
+        (( _passed_+=1 ))
+	pass
     } || {
+        (( _failed_+=1 ))
         fail
     }
 }
